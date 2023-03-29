@@ -4,9 +4,7 @@ const morgan = require("morgan")
 
 const app = express()
 
-morgan.token('conf', (req, res) => {
-    return JSON.stringify(req.body)
-})
+morgan.token('conf', (req, _) => JSON.stringify(req.body))
 const customMorgan = morgan(':method :url :status :res[content-length] - :response-time ms :conf')
 
 app.use(express.json(), customMorgan)
