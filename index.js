@@ -61,8 +61,8 @@ app.get("/info", (request, response) => {
     `)
 })
 
-
-app.listen(3001, () => {console.log("App running on port 3001");})
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {console.log("App running on port 3001")})
 
 const generateId = () => {
     const existingIds = persons.map( ({id}) => Number(id) )
