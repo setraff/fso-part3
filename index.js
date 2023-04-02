@@ -1,13 +1,14 @@
 let persons = require("./data")
 const express = require("express")
 const morgan = require("morgan")
+const cors = require("cors")
 
 const app = express()
 
 morgan.token('conf', (req, _) => JSON.stringify(req.body))
 const customMorgan = morgan(':method :url :status :res[content-length] - :response-time ms :conf')
 
-app.use(express.json(), customMorgan)
+app.use(cors(), express.json(), customMorgan)
 
 app.get("/api/persons/", (request, response) => {
     response.json(persons)
