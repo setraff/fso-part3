@@ -8,7 +8,7 @@ const app = express()
 morgan.token('conf', (req, _) => JSON.stringify(req.body))
 const customMorgan = morgan(':method :url :status :res[content-length] - :response-time ms :conf')
 
-app.use(cors(), express.json(), customMorgan)
+app.use(cors(), express.static('build') , express.json(), customMorgan)
 
 app.get("/api/persons/", (request, response) => {
     response.json(persons)

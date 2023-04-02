@@ -13,3 +13,18 @@ content-type: application/json
 ###
 
 GET http://localhost:3001/api/persons
+
+
+###
+
+DELETE https://phonebook-backend-bh73.onrender.com/api/persons/2
+
+### 
+
+POST https://phonebook-backend-bh73.onrender.com/api/persons
+content-type: application/json
+
+{
+    "name": "Rafhan",
+    "number": "420"
+}
