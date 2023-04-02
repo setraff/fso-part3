@@ -62,6 +62,30 @@ app.get("/info", (request, response) => {
     `)
 })
 
+app.put("/api/persons/:id", (request, response) => {
+    let id = request.params.id
+    id = Number(id)
+    let updated = {}
+    let idInPersons = false
+    persons = persons.map(p => {
+        if(p.id === id)
+        {
+            idInPersons = true
+            updated = {...p, number: Number(request.body.number)}
+            return updated
+        }
+        else
+        {
+            return p
+        }
+    })
+    if(!idInPersons)
+    {
+        return response.status(404).end()
+    }
+    response.json(updated)
+})
+
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {console.log("App running on port 3001")})
 
