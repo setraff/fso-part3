@@ -71,7 +71,7 @@ app.put("/api/persons/:id", (request, response) => {
         if(p.id === id)
         {
             idInPersons = true
-            updated = {...p, number: Number(request.body.number)}
+            updated = {...p, number: request.body.number}
             return updated
         }
         else
