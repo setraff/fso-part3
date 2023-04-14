@@ -39,23 +39,17 @@ app.delete("/api/persons/:id", (request, response) => {
 })
 
 app.post("/api/persons", (request, response) => {
-    let newPerson = request.body
-    if( !(newPerson.name && newPerson.number) )
+    let {name, number} = request.body
+    if( !(name && number) )
     {
         return response.status(400).json({
             error: "Name, Number cannot be empty"
         })
     }
-    const names = persons.map(({name}) => name.toLowerCase())
-    if (names.includes(newPerson.name.toLowerCase()))
-    {
-        return response.status(400).json({
-            error: "name must be unique"
-        })
-    }
-    newPerson.id = generateId()
-    persons = [...persons, newPerson]
-    response.json(newPerson)
+
+    const newPerson = new Person({name, number})
+    newPerson.save()
+    .then(savedPerson => response.json(savedPerson))
 })
 
 app.get("/info", (request, response) => {
