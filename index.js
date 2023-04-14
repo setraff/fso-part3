@@ -2,6 +2,8 @@ let persons = require("./data")
 const express = require("express")
 const morgan = require("morgan")
 const cors = require("cors")
+require("dotenv").config()
+const Person = require("./models/person")
 
 const app = express()
 
@@ -11,7 +13,8 @@ const customMorgan = morgan(':method :url :status :res[content-length] - :respon
 app.use(cors(), express.static('build') , express.json(), customMorgan)
 
 app.get("/api/persons/", (request, response) => {
-    response.json(persons)
+    Person.find({})
+    .then(res => response.json(res))
 })
 
 app.get("/api/persons/:id", (request, response) => {
