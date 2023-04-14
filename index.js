@@ -40,7 +40,7 @@ app.delete("/api/persons/:id", (request, response) => {
 
 app.post("/api/persons", (request, response) => {
     let {name, number} = request.body
-    if( !(name || number) )
+    if( !(name && number) )
     {
         return response.status(400).json({
             error: "Name, Number cannot be empty"
