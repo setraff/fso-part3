@@ -102,17 +102,3 @@ app.use(handleUnknownRoutes, errorHandler)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {console.log("App running on port 3001")})
-
-const generateId = () => {
-    const existingIds = persons.map( ({id}) => Number(id) )
-    let randomId
-    do
-    {
-        const max = Math.floor(10000)
-        const min = Math.ceil(1)
-        randomId = Math.floor(Math.random() * (max - min) + min)
-    }
-    while(existingIds.includes(randomId))
-
-    return randomId
-}
