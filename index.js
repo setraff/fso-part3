@@ -44,12 +44,6 @@ app.delete("/api/persons/:id", (request, response, next) => {
 
 app.post("/api/persons", (request, response, next) => {
     let {name, number} = request.body
-    if( !(name && number) )
-    {
-        return response.status(400).json({
-            error: "Name, Number cannot be empty"
-        })
-    }
 
     const newPerson = new Person({name, number})
     newPerson.save()
@@ -68,12 +62,12 @@ app.get("/info", (request, response) => {
     .catch(error => next(error))
 })
 
-app.put("/api/persons/:id", (request, response) => {
+app.put("/api/persons/:id", (request, response, next) => {
     const {id} = request.params
     const {body} = request
     const {name, number} = body
     const updatedContact = {name, number}
-    Person.findByIdAndUpdate(id, updatedContact, {new: true})
+    Person.findByIdAndUpdate(id, updatedContact, {new: true, runValidators: true, context: 'query'})
     .then( (x) => {
         if(x) {
             response.json(x)
@@ -82,6 +76,7 @@ app.put("/api/persons/:id", (request, response) => {
             response.status(404).end()
         }
     })
+    .catch(error => next(error))
 })
 
 const handleUnknownRoutes = (request, response) => {
@@ -93,7 +88,9 @@ const errorHandler = (error, request, response, next) => {
 
     if (error.name === 'CastError') {
         return response.status(400).send({ error: 'malformatted id' })
-    } 
+    } else if (error.name === 'ValidationError') {
+        return response.status(400).send({ error: error.message })
+    }
 
     next(error)
 }
