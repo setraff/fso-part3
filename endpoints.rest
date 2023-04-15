@@ -28,3 +28,6 @@ content-type: application/json
     "name": "Rafhan",
     "number": "420"
 }
+
+###
+DELETE http://localhost:3001/api/persons/64352283befc565df4532f3d
