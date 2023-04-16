@@ -41,8 +41,14 @@ app.delete('/api/persons/:id', (request, response, next) => {
     .catch(error => next(error) )
 })
 
-app.post('/api/persons', (request, response, next) => {
+app.post('/api/persons', async (request, response, next) => {
   let { name, number } = request.body
+
+  let isPersonAlreadyInPhonebook  = await Person.find({ name })
+  if(isPersonAlreadyInPhonebook.length)
+  {
+    return response.status(400).send({ error: 'Name must be unique' })
+  }
 
   const newPerson = new Person({ name, number })
   newPerson.save()
